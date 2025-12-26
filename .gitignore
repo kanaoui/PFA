@@ -17,3 +17,6 @@ Thumbs.db
 # TensorFlow / logs
 logs/
 data/
+
+# Ignore photos in verification_images (keep folder structure)
+application_data/verification_images/*.jpg
