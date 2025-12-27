@@ -12,6 +12,7 @@
 .swiftpm/
 migrate_working_dir/
 Facerecognition/application_data/
+Facerecognition/siamesemodelv2.h5
 
 # IntelliJ related
 *.iml
