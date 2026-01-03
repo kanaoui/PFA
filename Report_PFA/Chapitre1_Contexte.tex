@@ -1,0 +1,52 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+
+\chapter{Présentation du cadre de projet}
+
+\section{Introduction}
+Ce chapitre a pour objectif de situer le projet \textbf{AgroSense} dans son contexte global. Nous allons explorer l'environnement dans lequel s'inscrit l'application, analyser les solutions existantes pour en dégager les limites, et justifier les choix technologiques et méthodologiques qui ont guidé notre développement. Nous présenterons également la planification suivie pour mener à bien ce travail.
+
+\section{Étude de l'existant}
+
+\subsection{Description de l'existant}
+Le marché actuel propose de nombreuses applications dédiées soit à l'agriculture (détection de maladies, gestion de ferme), soit à la finance (suivi boursier, prédictions).
+\begin{itemize}
+    \item \textbf{Applications agricoles :} Des solutions comme \textit{PlantSnap} ou \textit{Plantix} permettent d'identifier des plantes et des maladies via l'image. Elles utilisent souvent des modèles de Deep Learning classiques (CNN).
+    \item \textbf{Applications financières :} Des plateformes comme \textit{Yahoo Finance} ou \textit{Bloomberg} offrent des données en temps réel mais sont souvent complexes pour un utilisateur non expert.
+    \item \textbf{Systèmes de sécurité :} L'authentification mobile repose souvent sur les solutions natives (FaceID, TouchID) ou des codes PIN, rarement sur des modèles de reconnaissance faciale propriétaires intégrés directement dans la logique applicative pour un contrôle total des données.
+\end{itemize}
+
+\subsection{Critique de l'existant}
+Bien que performantes, ces solutions présentent plusieurs inconvénients majeurs dans le cadre de notre problématique :
+\begin{itemize}
+    \item \textbf{Fragmentation :} L'utilisateur doit jongler entre plusieurs applications pour gérer ses investissements et ses activités agricoles.
+    \item \textbf{Manque d'intégration IA avancée :} Peu d'applications combinent vision par ordinateur, traitement du langage naturel (RAG) et prédiction de séries temporelles (LSTM) dans une interface unifiée.
+    \item \textbf{Sécurité générique :} La dépendance aux systèmes de sécurité des OS limite la personnalisation et le contrôle sur le processus d'authentification biométrique.
+\end{itemize}
+
+\subsection{Solution proposée}
+\textbf{AgroSense} se propose de combler ces lacunes en offrant une plateforme unifiée et sécurisée. Notre solution intègre :
+\begin{itemize}
+    \item \textbf{Sécurité par Reconnaissance Faciale (Siamese Networks) :} Un module de sécurité développé sur mesure, utilisant l'apprentissage "One-Shot" pour authentifier l'utilisateur avec une grande précision, même avec peu d'exemples. C'est la porte d'entrée obligatoire de l'application.
+    \item \textbf{Prédiction Agricole (ANN & CNN) :} Identification des fruits/légumes et diagnostic.
+    \item \textbf{Prédiction Boursière (LSTM) :} Analyse des tendances du marché (Stock Market).
+    \item \textbf{Assistance Intelligente (RAG & Voice) :} Un chatbot contextuel capable de répondre aux questions spécifiques sur l'agriculture et la finance.
+\end{itemize}
+
+\section{Choix de modèle de développement}
+Pour ce projet, nous avons opté pour une méthodologie **Agile (Scrum)**. Ce choix se justifie par la nature exploratoire de l'intégration de multiples modèles d'IA (CNN, LSTM, Siamese). Cela nous a permis de procéder par itérations : d'abord le développement du modèle de reconnaissance faciale (le cœur de la sécurité), puis l'intégration progressive des autres modules (Fruits, Bourse, RAG).
+
+\section{Planning prévisionnel}
+Le projet s'est déroulé sur la durée du PFA, structuré comme suit :
+\begin{enumerate}
+    \item \textbf{Phase 1 : Recherche et État de l'art} - Étude des architectures de réseaux de neurones (Siamese, CNN, LSTM).
+    \item \textbf{Phase 2 : Développement du module de sécurité} - Collecte de données, entraînement du modèle Siamois, tests de validation.
+    \item \textbf{Phase 3 : Développement des modules métier} - Entraînement des modèles Fruits (CNN) et Bourse (LSTM).
+    \item \textbf{Phase 4 : Développement Mobile (Flutter)} - Création des interfaces et intégration des modèles via API (Flask/FastAPI) ou TFLite.
+    \item \textbf{Phase 5 : Tests et Intégration} - Vérification globale et rédaction du rapport.
+\end{enumerate}
+
+\section{Conclusion}
+AgroSense ne se veut pas seulement une démonstration technique, mais une solution viable répondant à des besoins réels de convergence technologique. Le socle de ce projet est sa sécurité, garantie par notre propre implémentation de reconnaissance faciale, que nous détaillerons dans les chapitres suivants.
+
+\end{document}

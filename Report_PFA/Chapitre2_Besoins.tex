@@ -1,0 +1,66 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+
+\chapter{Spécification des besoins}
+
+\section{Introduction}
+Ce chapitre détaille les besoins fonctionnels et non fonctionnels de l'application AgroSense. Il définit le périmètre du projet et décrit les interactions entre les utilisateurs et le système à travers des diagrammes de cas d'utilisation.
+
+\section{Spécification des besoins fonctionnels}
+
+\subsection{Besoin fonctionnel [Sécurité - Reconnaissance Faciale]}
+Le système doit garantir que seul l'utilisateur propriétaire peut accéder aux fonctionnalités de l'application.
+\begin{itemize}
+    \item \textbf{[Enregistrement]} : L'utilisateur doit pouvoir enregistrer son visage (images "Anchor") lors de la première utilisation.
+    \item \textbf{[Authentification]} : L'utilisateur doit pouvoir se connecter en scannant son visage. Le système compare l'image capturée avec les images enregistrées (Vérification One-Shot).
+\end{itemize}
+
+\subsection{Besoin fonctionnel [Agriculture Intelligente]}
+\begin{itemize}
+    \item \textbf{[Prédiction Fruits/Légumes]} : L'utilisateur peut prendre une photo d'un fruit ou d'un légume ou d'une feuille. Le système doit identifier l'objet et/ou détecter d'éventuelles maladies (Classification via CNN/ANN).
+    \item \textbf{[Conseil]} : Le système doit fournir des recommandations basées sur le diagnostic.
+\end{itemize}
+
+\subsection{Besoin fonctionnel [Finance & Marché]}
+\begin{itemize}
+    \item \textbf{[Prédiction Boursière]} : L'utilisateur accède aux prévisions des cours de la bourse (Stock Market). Le système utilise un modèle LSTM pour projeter les tendances futures.
+\end{itemize}
+
+\subsection{Besoin fonctionnel [Assistance]}
+\begin{itemize}
+    \item \textbf{[Assistant Vocal]} : L'utilisateur peut interagir avec l'application par la voix.
+    \item \textbf{[RAG - Chatbot]} : Un système de questions-réponses contextuel permet d'obtenir des informations précises sur l'agriculture et les finances.
+\end{itemize}
+
+\section{Spécification des besoins non fonctionnels}
+\begin{itemize}
+    \item \textbf{Performance :} La reconnaissance faciale doit s'effectuer en moins de 2 secondes.
+    \item \textbf{Fiabilité :} Le taux de faux positifs pour l'authentification doit être minime.
+    \item \textbf{Ergonomie :} L'interface doit être intuitive (Flutter) et responsive.
+    \item \textbf{Sécurité :} Les données biométriques ne doivent pas être compromises.
+\end{itemize}
+
+\section{Présentation des cas d'utilisation}
+
+\subsection{Présentation des acteurs}
+\begin{itemize}
+    \item \textbf{Utilisateur Final (Agriculteur/Investisseur)} : Personne utilisant l'application pour gérer ses cultures ou consulter la bourse. Il doit s'authentifier au préalable.
+\end{itemize}
+
+\subsection{Description des cas d'utilisation}
+\begin{enumerate}
+    \item \textbf{S'authentifier :} L'acteur présente son visage à la caméra. Le système valide ou refuse l'accès.
+    \item \textbf{Consulter Prédictions :} L'acteur demande une analyse (photo ou données).
+    \item \textbf{Discuter avec l'Assistant :} L'acteur pose une question vocale ou textuelle.
+\end{enumerate}
+
+\subsection{Diagramme des cas d'utilisation global}
+\begin{figure}[h]
+    \centering
+    % Placeholder pour le diagramme de cas d'utilisation
+    % \includegraphics[width=0.8\textwidth]{usecase_diagram.png}
+    \caption{Diagramme de cas d'utilisation global d'AgroSense}
+    \label{fig:usecase}
+\end{figure}
+
+\end{document}

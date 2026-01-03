@@ -1,0 +1,123 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+
+\chapter{Réalisation du système}
+
+\section{Introduction}
+Ce chapitre présente les outils et technologies utilisés pour le développement d'AgroSense, ainsi que les résultats finaux sous forme de captures d'écran de l'application.
+
+\section{Environnement de développement}
+
+\subsection{Environnement matériel}
+Le développement et l'entraînement des modèles ont été réalisés sur une machine équipée de GPU pour accélérer les calculs TensorFlow (compatible CUDA). Les tests mobiles ont été effectués sur des émulateurs Android (Pixel/Medium Phone).
+
+\subsection{Environnement logiciel}
+\begin{itemize}
+    \item \textbf{Frontend Mobile :} Flutter (Dart). Framework UI de Google pour le multiplateforme.
+    \item \textbf{Backend IA :} Python 3.9+.
+        \begin{itemize}
+            \item \textbf{TensorFlow/Keras :} Pour la création et l'entraînement des modèles (Siamese, CNN, LSTM).
+            \item \textbf{Flask :} Pour exposer les modèles sous forme d'API REST.
+            \item \textbf{OpenCV :} Pour le traitement d'images (capture, redimensionnement).
+        \end{itemize}
+    \item \textbf{Outils :} Visual Studio Code, Android Studio, Git.
+\end{itemize}
+
+\section{Implémentation de la Reconnaissance Faciale}
+Le service de reconnaissance faciale (\texttt{face\_recognition\_service.py}) expose un endpoint \texttt{/verify\_face}.
+Voici un extrait du code Python gérant la comparaison :
+
+\begin{lstlisting}[language=Python, caption=Comparaison directe avec le modèle Siamois]
+def verify_face():
+    # ... (réception image)
+    # Chargement du modèle avec la couche personnalisée L1Dist
+    model = keras.models.load_model('siamesemodelv2.h5', 
+                                  custom_objects={"L1Dist": L1Dist})
+    
+    # Comparaison avec les images de vérification
+    for img_file in verification_files:
+        score = model.predict([input_image, verification_image])
+        if score > threshold:
+            verified = True
+    # ...
+\end{lstlisting}
+
+\section{Principales interfaces graphiques}
+
+\subsection{Page d'Authentification}
+L'application s'ouvre sur un écran de bienvenue épuré ("Welcome Screen"), mettant en avant la sécurité biométrique. L'utilisateur est invité à s'authentifier via la reconnaissance faciale pour accéder aux fonctionnalités.
+\begin{figure}[h]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{screenshots/welcome_screen.png}
+        \caption{Écran d'accueil et Authentification}
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{screenshot_login.png}
+        \caption{Scan facial en temps réel}
+    \end{minipage}
+\end{figure}
+
+\subsection{Tableau de bord et Menu Principal}
+Une fois authentifié, l'utilisateur accède au tableau de bord (\textit{Home Screen}) qui centralise l'accès aux trois moteurs d'intelligence : 
+\begin{itemize}
+    \item \textbf{Neural Processing :} Pour les modèles prédictifs (ANN/LSTM).
+    \item \textbf{Visual Intelligence :} Pour l'analyse d'images (CNN).
+    \item \textbf{Adaptive Intelligence :} Pour le système RAG et le Chatbot.
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{screenshots/home_dashboard_v2.png}
+        \caption{Menu des fonctionnalités (Explore Capabilities)}
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{screenshots/dashboard.png}
+        \caption{Sélection des modèles}
+    \end{minipage}
+\end{figure}
+
+\subsection{Interfaces des Modèles de Vision (ANN \& CNN)}
+Les modules de vision par ordinateur permettent au système d'identifier des maladies ou des types de cultures à partir d'images.
+\begin{figure}[h]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{screenshots/ann_model.png}
+        \caption{Interface ANN Model}
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{screenshots/cnn_model.png}
+        \caption{Interface CNN Model}
+    \end{minipage}
+\end{figure}
+
+\subsection{Modules de Prédiction Avancée (Finance & RAG)}
+Au-delà de l'analyse d'image, AgroSense intègre des outils d'aide à la décision financière et contextuelle.
+
+\subsubsection{Prédiction Boursière (LSTM)}
+L'interface de \textbf{Stock Prediction} permet de visualiser l'historique des prix et de générer une prévision aléatoire ou basée sur un dataset réel. Le modèle LSTM (Long Short-Term Memory) analyse la séquence temporelle pour projeter les tendances futures.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.45\textwidth]{screenshots/stock_prediction.png}
+    \caption{Module de prédiction de tendance (Trend Forecasting)}
+\end{figure}
+
+\subsubsection{Système RAG (Chatbot Documentaire)}
+Le module \textbf{RAG Model} (Retrieval-Augmented Generation) permet à l'utilisateur de charger des documents (rapports, fiches techniques) et de poser des questions en langage naturel. Le système combine la recherche d'information dans le document et la capacité de génération d'un LLM pour fournir une réponse précise.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.45\textwidth]{screenshots/rag_interface.png}
+    \caption{Interface RAG : Upload de fichiers et Q\&A}
+\end{figure}
+
+\section{Conclusion}
+L'application est fonctionnelle et intègre avec succès les différents modèles d'IA. La communication entre Flutter et le backend Python est fluide, garantissant une expérience utilisateur réactive.
+
+\end{document}

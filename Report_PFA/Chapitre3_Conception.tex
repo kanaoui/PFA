@@ -1,0 +1,83 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+
+\chapter{Conception du système}
+
+\section{Introduction}
+Ce chapitre est le cœur technique de notre rapport. Nous y détaillons l'architecture du système, avec une focalisation majeure (80\%) sur le module de reconnaissance faciale, véritable clé de voûte de la sécurité d'AgroSense. Nous présenterons également les modélisations statiques et dynamiques via UML.
+
+\section{Architecture de la Reconnaissance Faciale (Siamese Networks)}
+Contrairement aux systèmes de classification classiques, notre module d'authentification utilise un \textbf{Réseau de Neurones Siamois (Siamese Neural Network)}.
+
+\subsection{Principe de fonctionnement}
+Le réseau siamois est constitué de deux réseaux de neurones identiques (mêmes poids) qui traitent deux entrées distinctes en parallèle :
+\begin{enumerate}
+    \item \textbf{Image d'entrée (Input Image)} : Le visage capturé par la caméra lors de la connexion.
+    \item \textbf{Image de vérification (Verification Image)} : Une image stockée lors de l'enregistrement (Anchor).
+\end{enumerate}
+Le but n'est pas de classer l'image, mais de calculer une \textbf{distance} (similitude) entre les deux vecteurs de caractéristiques (embeddings) produits par les réseaux.
+
+\subsection{Architecture détaillée du modèle}
+Le modèle a été implémenté avec TensorFlow/Keras.
+\begin{itemize}
+    \item \textbf{Entrée :} Images RGB redimensionnées à $100 \times 100$ pixels.
+    \item \textbf{Feature Extractor (CNN) :} Une série de couches de convolution (Conv2D) et de Pooling (MaxPooling2D) pour extraire les caractéristiques faciales.
+    \item \textbf{Couche de Distance (L1Dist) :} Une couche personnalisée qui calcule la valeur absolue de la différence entre les deux embeddings :
+    \[ L1(x, y) = |f(x) - f(y)| \]
+    où $f(x)$ est l'embedding généré par le CNN.
+    \item \textbf{Sortie :} Une couche Dense avec activation Sigmoid qui produit un score entre 0 (différent) et 1 (identique).
+\end{itemize}
+
+\subsection{Stratégie d'authentification (One-Shot Learning)}
+L'application utilise une approche "One-Shot Learning".
+\begin{enumerate}
+    \item L'utilisateur capture une image "Anchor".
+    \item Lors de l'authentification, la nouvelle image est comparée à une série d'images de vérification.
+    \item Si le score de similarité (Cosine Similarity ou prédiction directe) dépasse un seuil (« Threshold », fixé à 0.75 ou 0.3 selon la méthode), l'accès est autorisé via l'API Flask (\texttt{/verify\_face}).
+\end{enumerate}
+
+\section{Modélisation dynamique (UML)}
+
+\subsection{Diagrammes de séquences : Authentification}
+L'acteur interagit avec l'interface Flutter, qui communique avec le service Python.
+
+\begin{enumerate}
+    \item \textbf{Utilisateur} ouvre l'application.
+    \item \textbf{Flutter App} active la caméra et capture le visage.
+    \item \textbf{FaceAuthScreen} envoie l'image (Base64) à l'API \texttt{face\_recognition\_service.py}.
+    \item \textbf{API} pré-traite l'image (Resize 100x100, Normalization).
+    \item \textbf{API} charge le modèle \texttt{siamesemodelv2.h5}.
+    \item \textbf{API} compare l'image avec le dossier \texttt{verification\_images}.
+    \item \textbf{API} retourne \texttt{verified: true/false}.
+    \item \textbf{Flutter App} redirige vers \texttt{HomeScreen} ou affiche une erreur.
+\end{enumerate}
+
+\begin{figure}[h]
+    \centering
+    % Placeholder pour le diagramme de séquence
+    % \includegraphics[width=0.9\textwidth]{sequence_auth.png}
+    \caption{Diagramme de séquence de l'authentification faciale}
+\end{figure}
+
+\section{Modélisation statique (UML)}
+
+\subsection{Diagramme de classes}
+L'architecture de l'application Flutter repose sur une séparation claire entre les écrans (UI) et les services (Logique).
+
+\textbf{Packages principaux :}
+\begin{itemize}
+    \item \texttt{screens} : Contient les vues (\texttt{FaceAuthScreen}, \texttt{HomeScreen}, \texttt{AnnScreen}, etc.).
+    \item \texttt{services} : Gère les appels API et la logique (\texttt{FaceRecognitionService}, \texttt{AnnService}, \texttt{LstmService}).
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    % Placeholder pour le diagramme de classes
+    % \includegraphics[width=0.9\textwidth]{class_diagram.png}
+    \caption{Diagramme de classes simplifié (Flutter & Python Service)}
+\end{figure}
+
+\section{Conclusion}
+La conception met l'accent sur la modularité. Le modèle de sécurité est découplé (micro-service Flask), ce qui permet de le mettre à jour sans recompiler l'application mobile.
+
+\end{document}

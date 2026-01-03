@@ -1,0 +1,68 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{subfiles}
+
+\geometry{hmargin=2.5cm,vmargin=2.5cm}
+
+\title{\textbf{Rapport de Projet de Fin d'Année}}
+\author{ElHachchad Abdelghaffar \\ Kanaoui Aymane}
+\date{Année Universitaire 2024-2025}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \includegraphics[width=0.4\textwidth]{logo_emsi.png} % Placeholder for logo
+    \vspace{1cm}
+    
+    {\Large École Marocaine des Sciences de l'Ingénieur \par}
+    \vspace{1cm}
+    
+    {\Huge \textbf{AgroSense : Application Intelligente pour l'Agriculture et la Finance} \par}
+    \vspace{1.5cm}
+    
+    {\Large \textbf{Projet de Fin d'Année} \par}
+    \vspace{0.5cm}
+    Filire : Ingénierie Informatique et Réseaux (5ème année)
+    \vspace{2cm}
+    
+    \textbf{Réalisé par :} \\
+    ElHachchad Abdelghaffar \\
+    Kanaoui Aymane
+    \vspace{1cm}
+    
+    \textbf{Encadré par :} \\
+    Mr. Abderrahim Larhlimi
+    \vspace{2cm}
+    
+    {\large Année Universitaire 2024 - 2025 \par}
+\end{titlepage}
+
+\tableofcontents
+\listoffigures
+\newpage
+
+\subfile{Introduction}
+\subfile{Chapitre1_Contexte}
+\subfile{Chapitre2_Besoins}
+\subfile{Chapitre3_Conception}
+\subfile{Chapitre4_Realisation}
+\subfile{Conclusion}
+
+%\bibliographystyle{plain}
+%\bibliography{biblio}
+
+\chapter*{Annexes}
+\addcontentsline{toc}{chapter}{Annexes}
+\input{Annexes}
+
+\end{document}
